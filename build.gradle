@@ -5,7 +5,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.1'
@@ -19,10 +19,32 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+// Define versions in a single place
+ext {
+    // Sdk and tools
+    minSdkVersion = 21
+    targetSdkVersion = 29
+    compileSdkVersion = 29
+
+    //App dependencies
+    androidXAnnotations = '1.0.1'
+    coroutinesVersion = '1.2.1'
+    materialVersion = '1.0.0'
+    archLifecycleVersion = '2.1.0-rc01'
+    tedPermissionVersion = '2.2.2'
+    retrofitVersion = '2.6.0'
+    glideVersion ='4.9.0'
+    rxAndroidVersion = '2.1.1'
+    rxJava = '2.2.10'
+    roomVersion = '2.2.1'
+    koinVersion = '2.0.1'
+    fragmentVersion = '1.1.0'
 }
