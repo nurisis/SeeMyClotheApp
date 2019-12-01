@@ -1,6 +1,3 @@
 <resources>
     <string name="app_name">SeeMyClothApp</string>
-
-    <string name="naver_search_api_client_id">1_5LJMFvrB5NFZf6TlLW</string>
-    <string name="naver_search_api_client_secret">NYzqRUs1K_</string>
 </resources>
