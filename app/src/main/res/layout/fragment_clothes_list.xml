@@ -1,20 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.nurisis.seemyclothappp.ShopViewModel" />
+    </data>
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white"
+    android:padding="16dp"
     android:layout_height="match_parent">
 
+    <EditText
+        android:id="@+id/et_query"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:imeOptions="actionSearch"
+        android:layout_marginBottom="24dp"/>
+
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/tv_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:visibility="gone"/>
+        android:layout_below="@id/et_query"
+        android:text="@{viewModel.totalItem.toString()}"
+        tools:text="1234"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_total"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:visibility="@{viewModel.searchLoading}"
         android:layout_centerInParent="true"/>
 
 </RelativeLayout>
+</layout>

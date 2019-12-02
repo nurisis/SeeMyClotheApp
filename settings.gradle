@@ -1,2 +1,2 @@
-include ':app', ':data', ':entity', ':di'
+include ':app', ':data', ':entity'
 rootProject.name='SeeMyClothApp'

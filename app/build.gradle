@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -13,7 +12,18 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        // Specifies the fully-qualified class name of the test instrumentation runner.
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Specifies the application ID for the test APK.
+        testApplicationId "com.nurisis.seemyclothappp.test"
+        // If set to 'true', enables the instrumentation class to start and stop profiling.
+        // If set to false (default), profiling occurs the entire time the instrumentation
+        // class is running.
+        testHandleProfiling true
+        // If set to 'true', indicates that the Android system should run the instrumentation
+        // class as a functional test. The default value is 'false'
+        testFunctionalTest true
     }
     buildTypes {
         release {
@@ -21,19 +31,63 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    dataBinding {
+        enabled = true
+        enabledForTests = true
+    }
+
+    // Encapsulates options for running tests.
+    testOptions {
+        // Changes the directory where Gradle saves test reports. By default, Gradle saves test reports
+        // in the path_to_your_project/module_name/build/outputs/reports/ directory.
+        // '$rootDir' sets the path relative to the root directory of the current project.
+        reportDir "$rootDir/test-reports"
+        // Changes the directory where Gradle saves test results. By default, Gradle saves test results
+        // in the path_to_your_project/module_name/build/outputs/test-results/ directory.
+        // '$rootDir' sets the path relative to the root directory of the current project.
+        resultsDir "$rootDir/test-results"
+
+        // Encapsulates options for local unit tests.
+        unitTests {
+            // By default, local unit tests throw an exception any time the code you are testing tries to access
+            // Android platform APIs (unless you mock Android dependencies yourself or with a testing
+            // framework like Mockito). However, you can enable the following property so that the test
+            // returns either null or zero when accessing platform APIs, rather than throwing an exception.
+            returnDefaultValues true
+
+            // Encapsulates options for controlling how Gradle executes local unit tests. For a list
+            // of all the options you can specify, read Gradle's reference documentation.
+            all {
+                // Sets JVM argument(s) for the test JVM(s).
+                jvmArgs '-XX:MaxPermSize=256m'
+
+                // You can also check the task name to apply options to only the tests you specify.
+                if (it.name == 'testDebugUnitTest') {
+                    systemProperty 'debug', 'true'
+                }
+            }
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:3.1.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    testImplementation 'org.mockito:mockito-core:3.1.0'
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:rules:1.1.0'
+
     // Espresso dependencies
 //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 //    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0'
@@ -42,21 +96,41 @@ dependencies {
 //    androidTestImplementation 'androidx.test.espresso:espresso-web:3.1.0'
 //    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.1.0'
 
+    // Required for instrumented tests
+//    androidTestImplementation 'com.android.support:support-annotations:24.0.0'
+//    androidTestImplementation 'com.android.support.test:runner:0.5'
+
     // Core library
-    androidTestImplementation 'androidx.test:core:1.0.0'
-    androidTestImplementation "androidx.arch.core:core-testing:2.0.0"
+//    androidTestImplementation 'androidx.test:core:1.0.0'
+//    androidTestImplementation "androidx.arch.core:core-testing:2.0.0"
 
-    // AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test:rules:1.1.0'
 
+    // Koin
     implementation "org.koin:koin-android:$koinVersion"
+    implementation "org.koin:koin-androidx-viewmodel:$koinVersion"
 
     implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$archLifecycleVersion"
 
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
+
+    // DI - Koin
+    implementation "org.koin:koin-core:$koinVersion"
+    implementation "org.koin:koin-androidx-viewmodel:$koinVersion"
+
+    // retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-simplexml:$retrofitVersion"
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    kapt 'com.github.bumptech.glide:compiler:4.10.0'
+
     implementation project(':data')
-    implementation project(':di')
     implementation project(':entity')
 }

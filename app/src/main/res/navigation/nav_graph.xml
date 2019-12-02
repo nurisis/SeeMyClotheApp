@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    app:startDestination="@id/clothesListFragment">
+
+    <fragment
+        android:id="@+id/clothesListFragment"
+        android:name="com.nurisis.seemyclothappp.ClothesListFragment"
+        android:label="Search Result" />
+</navigation>
