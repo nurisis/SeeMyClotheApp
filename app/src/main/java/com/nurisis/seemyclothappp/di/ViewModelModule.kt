@@ -1,6 +1,6 @@
 package com.nurisis.seemyclothappp.di
 
-import com.nurisis.seemyclothappp.ShopViewModel
+import com.nurisis.seemyclothappp.ui.ShopViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

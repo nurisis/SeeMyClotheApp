@@ -1,16 +1,12 @@
-package com.nurisis.seemyclothappp
+package com.nurisis.seemyclothappp.ui
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.nurisis.seemyclothappp.databinding.FragmentClothesListBinding
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -18,7 +14,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class ClothesListFragment : Fragment() {
 
     private val shopViewModel by sharedViewModel<ShopViewModel>()
-    private lateinit var listAdapter:ShopListAdapter
+    private lateinit var listAdapter: ShopListAdapter
     private lateinit var viewDataBinding : FragmentClothesListBinding
 
 

@@ -1,5 +1,6 @@
 package com.nurisis.seemyclothappp
 
+import com.nurisis.seemyclothappp.ui.ShopViewModel
 import org.junit.Assert.*
 import org.junit.Test
 

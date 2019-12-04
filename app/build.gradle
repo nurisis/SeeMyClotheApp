@@ -37,6 +37,15 @@ android {
         enabledForTests = true
     }
 
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     // Encapsulates options for running tests.
     testOptions {
         // Changes the directory where Gradle saves test reports. By default, Gradle saves test reports

@@ -1,4 +1,4 @@
-package com.nurisis.seemyclothappp
+package com.nurisis.seemyclothappp.ui
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -20,6 +20,10 @@ class ShopViewModel(
     // List of search result
     private val _searchList = MutableLiveData<List<NaverShopItem>>()
     val searchList : LiveData<List<NaverShopItem>> = _searchList
+
+    // Item that user click to see detail
+    private val _clickedItem = MutableLiveData<NaverShopItem>()
+    val clickedItem : LiveData<NaverShopItem> = _clickedItem
 
     private val _totalItem = MutableLiveData<Long>()
     val totalItem : LiveData<Long> = _totalItem
@@ -43,6 +47,10 @@ class ShopViewModel(
 
             _searchLoading.value = false
         }
+    }
+
+    fun clickItem(item:NaverShopItem) {
+        _clickedItem.value = item
     }
 
 }

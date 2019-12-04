@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.nurisis.seemyclothappp.ShopViewModel" />
+            type="com.nurisis.seemyclothappp.ui.ShopViewModel" />
     </data>
 
 <RelativeLayout

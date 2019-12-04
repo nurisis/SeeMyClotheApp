@@ -5,6 +5,14 @@
 
     <fragment
         android:id="@+id/clothesListFragment"
-        android:name="com.nurisis.seemyclothappp.ClothesListFragment"
-        android:label="Search Result" />
+        android:name="com.nurisis.seemyclothappp.ui.ClothesListFragment"
+        android:label="Search your cloth" >
+        <action
+            android:id="@+id/action_clothesListFragment_to_detailWebViewFragment"
+            app:destination="@id/detailWebViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailWebViewFragment"
+        android:name="com.nurisis.seemyclothappp.ui.DetailWebViewFragment"
+        android:label="Detail page" />
 </navigation>

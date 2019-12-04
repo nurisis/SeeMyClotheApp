@@ -1,20 +1,24 @@
-package com.nurisis.seemyclothappp
+package com.nurisis.seemyclothappp.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nurisis.seemyclothappp.data.NaverShopItem
 import com.nurisis.seemyclothappp.databinding.ItemShopListBinding
 
-class ShopListAdapter(private val viewModel: ShopViewModel) : ListAdapter<NaverShopItem, ShopListAdapter.ViewHolder>(MyPageDiffCallback()) {
+class ShopListAdapter(private val viewModel: ShopViewModel) : ListAdapter<NaverShopItem, ShopListAdapter.ViewHolder>(
+    MyPageDiffCallback()
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent, viewModel)
+        return ViewHolder.from(
+            parent,
+            viewModel
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -38,9 +42,7 @@ class ShopListAdapter(private val viewModel: ShopViewModel) : ListAdapter<NaverS
          * */
         override fun onClick(v: View?) {
             binding.item?.let {
-
-                // If you want to pass data when navigating, Use a Bundle like below.
-                val bundle = Bundle()
+                viewModel.clickItem(it)
 
                 // Page navigation with the navController
 //                Navigation.findNavController(binding.root).navigate(R.id.action_frag_list_to_concertDetailFragment, bundle)
