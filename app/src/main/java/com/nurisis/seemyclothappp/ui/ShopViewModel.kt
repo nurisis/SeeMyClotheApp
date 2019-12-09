@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.nurisis.seemyclothappp.data.NaverShopItem
 import com.nurisis.seemyclothappp.data.Result
 import com.nurisis.seemyclothappp.domain.SearchClothUseCase
+import com.nurisis.seemyclothappp.entity.State
 import kotlinx.coroutines.launch
 
 class ShopViewModel(
@@ -17,6 +18,10 @@ class ShopViewModel(
     private val _toastMsg = MutableLiveData<String>()
     val toastMsg : LiveData<String> = _toastMsg
 
+    // Item that user click to see detail
+
+    private val _searchState = MutableLiveData<State>(State.START)
+    val searchState : LiveData<State> = _searchState
     // List of search result
     private val _searchList = MutableLiveData<List<NaverShopItem>>()
     val searchList : LiveData<List<NaverShopItem>> = _searchList

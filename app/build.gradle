@@ -89,13 +89,15 @@ dependencies {
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:3.1.0'
+    // Mockito
+    testImplementation "org.mockito:mockito-core:$mockVersion"
+    testImplementation "org.mockito:mockito-inline:$mockVersion"
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
     // AndroidJUnitRunner and JUnit Rules
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test:rules:1.1.0'
+    testImplementation group: 'androidx.arch.core', name: 'core-testing', version: "$androidCoreTestVersion"
 
     // Espresso dependencies
 //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
@@ -141,5 +143,5 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.10.0'
 
     implementation project(':data')
-    implementation project(':entity')
+    implementation project(path: ':entity')
 }

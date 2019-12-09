@@ -10,8 +10,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.nurisis.seemyclothappp.ui.DetailWebViewFragment
-import com.nurisis.seemyclothappp.ui.OnBackPressedListener
 import com.nurisis.seemyclothappp.ui.ShopViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
