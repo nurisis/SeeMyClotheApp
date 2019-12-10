@@ -41,6 +41,8 @@ class ShopViewModel(
         if(query.isEmpty()) return
 
         _searchLoading.value = true
+        _searchState.value = State.SHOW
+
         viewModelScope.launch {
             val searchResult = searchClothUseCase.search(query)
             Log.d("LOG>>", "Search result : $searchResult")
@@ -49,6 +51,8 @@ class ShopViewModel(
                 _searchList.value = searchResult.data.items
                 _totalItem.value = searchResult.data.total
             }
+            else
+                _searchState.value = State.NONE
 
             _searchLoading.value = false
         }

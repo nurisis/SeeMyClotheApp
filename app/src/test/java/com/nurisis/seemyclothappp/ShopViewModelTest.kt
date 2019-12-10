@@ -2,7 +2,9 @@ package com.nurisis.seemyclothappp
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.nurisis.seemyclothappp.data.NaverSearchResult
 import com.nurisis.seemyclothappp.data.NaverShopItem
+import com.nurisis.seemyclothappp.data.Result
 import com.nurisis.seemyclothappp.domain.SearchClothUseCase
 import com.nurisis.seemyclothappp.entity.State
 import com.nurisis.seemyclothappp.ui.ShopViewModel
@@ -13,14 +15,19 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.ArgumentMatchers
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
+import java.lang.Exception
 
 class ShopViewModelTest {
     @Rule
     @JvmField
     val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    var coroutinesTestRule = CoroutinesTestRule()
 
     @Mock
     private val searchClothUseCase = mock(SearchClothUseCase::class.java)
@@ -45,24 +52,55 @@ class ShopViewModelTest {
     }
 
     @Test
-    fun whenSearhListIsNotEmpty_State_ShouldBeSHOW() {
+    fun whenSearchWithResult_State_ShouldBeSHOW(){
+        runBlocking {
+            val query = "jeans"
+            `when`(searchClothUseCase.search(ArgumentMatchers.anyString())).thenReturn(
+                Result.Success(NaverSearchResult(
+                    total = 10,
+                    items = listOf(NaverShopItem(title = "Test", link = "www", image = "www.", mallName = "", productId = 0, lprice = 0, hprice = 0)),
+                    display = 10,
+                    start = 1
+                ))
+            )
 
+            viewModel.search(query)
+
+            viewModel.searchList.observeForever(searchObserver)
+
+            verify(searchObserver, atLeastOnce()).onChanged(ArgumentMatchers.anyList())
+            verify(searchClothUseCase, atLeastOnce()).search(query)
+            assertTrue(viewModel.searchState.value == State.SHOW)
+        }
     }
 
     @Test
-    fun whenSearhListIsEmpty_State_ShouldBeNONE(){
+    fun whenSearchWithOutResult_State_ShouldBeNONE(){
+        runBlocking {
+            val query = "xxx"
+            `when`(searchClothUseCase.search(ArgumentMatchers.anyString())).thenReturn(
+                Result.Error(Exception(""))
+            )
 
+            viewModel.search(query)
+            viewModel.searchList.observeForever(searchObserver)
+
+            verify(searchClothUseCase, atLeastOnce()).search(query)
+            verify(searchObserver, never()).onChanged(ArgumentMatchers.anyList())
+            assertTrue(viewModel.searchState.value == State.NONE)
+        }
     }
 
     @Test
-    fun searchWithEmptyQuery() {
-        viewModel.search("")
-        assertNull(viewModel.searchList)
+    fun whenSearchWithEmtpyString_ShouldReturnNothing(){
+        runBlocking {
+            val query = ""
+
+            viewModel.search(query)
+
+            verify(searchObserver, never()).onChanged(ArgumentMatchers.anyList())
+            verify(searchClothUseCase, never()).search(query)
+        }
     }
 
-    @Test
-    fun searchWithNotEmptyQuery() {
-        viewModel.search("Jeans")
-        assertNotNull(viewModel.searchList)
-    }
 }
