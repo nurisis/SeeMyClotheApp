@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.nurisis.seemyclothappp.ui.ShopViewModel" />
+    </data>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp" >
+
+    <ImageView
+        android:id="@+id/iv_captured"
+        android:layout_width="330dp"
+        android:layout_height="330dp"
+        app:imageUri="@{viewModel.sharedImageUri}"
+        tools:background="@color/grey"
+        android:scaleType="centerInside"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/button_bookmark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save as My Bookmark"
+        android:layout_marginTop="24dp"
+        android:layout_below="@id/iv_captured"/>
+
+</RelativeLayout>
+</layout>

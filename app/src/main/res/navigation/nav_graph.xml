@@ -10,9 +10,16 @@
         <action
             android:id="@+id/action_clothesListFragment_to_detailWebViewFragment"
             app:destination="@id/detailWebViewFragment" />
+        <action
+            android:id="@+id/action_clothesListFragment_to_bookmarkFromCaptureFragment"
+            app:destination="@id/bookmarkFromCaptureFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailWebViewFragment"
         android:name="com.nurisis.seemyclothappp.ui.DetailWebViewFragment"
         android:label="Detail page" />
+    <fragment
+        android:id="@+id/bookmarkFromCaptureFragment"
+        android:name="com.nurisis.seemyclothappp.ui.BookmarkFromCaptureFragment"
+        android:label="BookmarkFromCaptureFragment" />
 </navigation>

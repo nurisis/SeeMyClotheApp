@@ -1,5 +1,6 @@
 package com.nurisis.seemyclothappp.ui
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -33,6 +34,9 @@ class ShopViewModel(
     private val _totalItem = MutableLiveData<Long>()
     val totalItem : LiveData<Long> = _totalItem
 
+    private val _sharedImageUri = MutableLiveData<Uri>()
+    val sharedImageUri : LiveData<Uri> = _sharedImageUri
+
     private val _searchLoading = MutableLiveData<Boolean>()
     val searchLoading : LiveData<Boolean> = _searchLoading
 
@@ -61,5 +65,18 @@ class ShopViewModel(
     fun clickItem(item:NaverShopItem) {
         _clickedItem.value = item
     }
+
+    fun setSharedImagePath(uri:Uri?) {
+        if(uri == null) {
+            _toastMsg.value = "No image shared.."
+            return
+        }
+
+        _sharedImageUri.value = uri
+    }
+
+    /**
+     * Get an uri from shared intent from MainActivity
+     * */
 
 }

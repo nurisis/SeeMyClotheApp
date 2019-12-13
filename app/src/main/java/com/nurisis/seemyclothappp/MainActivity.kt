@@ -1,5 +1,7 @@
 package com.nurisis.seemyclothappp
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -28,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+        intentFromShare()
+
         observerViewModel()
     }
 
@@ -38,6 +42,11 @@ class MainActivity : AppCompatActivity() {
 
         shopViewModel.clickedItem.observe(this, Observer {
             navController.navigate(R.id.action_clothesListFragment_to_detailWebViewFragment)
+        })
+
+        shopViewModel.sharedImageUri.observe(this, Observer {
+            Log.d("LOG>>", "Uri : $it")
+            navController.navigate(R.id.action_clothesListFragment_to_bookmarkFromCaptureFragment)
         })
     }
 
@@ -50,5 +59,16 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         Log.d("LOG>>", "------ onBackPressed() in MainActivity --------")
         super.onBackPressed()
+    }
+
+    private fun intentFromShare() {
+        val intent = getIntent()
+        val action  = intent.action
+        val type = intent.type
+
+        if(Intent.ACTION_SEND == action && type!=null){
+            shopViewModel.setSharedImagePath(intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM))
+        }
+
     }
 }

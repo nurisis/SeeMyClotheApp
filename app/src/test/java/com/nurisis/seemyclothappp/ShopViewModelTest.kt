@@ -1,6 +1,8 @@
 package com.nurisis.seemyclothappp
 
+import android.net.Uri
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import com.nurisis.seemyclothappp.data.NaverSearchResult
 import com.nurisis.seemyclothappp.data.NaverShopItem
@@ -32,15 +34,17 @@ class ShopViewModelTest {
     @Mock
     private val searchClothUseCase = mock(SearchClothUseCase::class.java)
 
-    private lateinit var viewModel :ShopViewModel
+    private val viewModel :ShopViewModel by lazy { ShopViewModel(searchClothUseCase) }
 
     @Mock
     lateinit var searchObserver: Observer<List<NaverShopItem>>
 
+    @Mock
+    lateinit var sharedImgObserver: Observer<Uri>
+
     @Before
     fun init(){
         MockitoAnnotations.initMocks(this)
-        viewModel = ShopViewModel(searchClothUseCase)
     }
 
     @Test
@@ -102,5 +106,19 @@ class ShopViewModelTest {
             verify(searchClothUseCase, never()).search(query)
         }
     }
+
+    @Test
+    fun whenImegeUriSharedFromOutside_withNull () {
+        val testUri = null
+
+        viewModel.sharedImageUri.observeForever(sharedImgObserver)
+
+        viewModel.setSharedImagePath(testUri)
+
+        verify(sharedImgObserver, never()).onChanged(Uri.parse(""))
+        assertNull(viewModel.sharedImageUri.value)
+    }
+
+
 
 }
