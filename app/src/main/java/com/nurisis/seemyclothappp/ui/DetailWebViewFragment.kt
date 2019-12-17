@@ -11,10 +11,16 @@ import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.nurisis.seemyclothappp.MainActivity
 import com.nurisis.seemyclothappp.databinding.FragmentDetailWebviewBinding
 import kotlinx.android.synthetic.main.fragment_detail_webview.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
+import org.jsoup.select.Elements
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class DetailWebViewFragment : Fragment(), OnBackPressedListener{
@@ -43,7 +49,28 @@ class DetailWebViewFragment : Fragment(), OnBackPressedListener{
 
         setUpWebView()
 
+        viewDataBinding.ivAddCart.setOnClickListener {
+            getHtmlContent(url = viewDataBinding.webView.url)
+            Toast.makeText(activity, "Url : ${viewDataBinding.webView.url}", Toast.LENGTH_SHORT).show()
+        }
+
         return viewDataBinding.root
+    }
+
+    private fun getHtmlContent(url : String) {
+        GlobalScope.launch {
+            val document = Jsoup.connect(url).get()
+            filterOgtag(document.select("meta[property^=og:]"))
+        }
+    }
+
+    private fun filterOgtag(ogTags:Elements) {
+        ogTags.forEach {
+            when(it.attr("property")) {
+                "og:title" -> Log.d("LOG>>","Title : ${it.attr("content")}")
+                "og:image" -> Log.d("LOG>>","Image : ${it.attr("content")}")
+            }
+        }
     }
 
     private fun setUpWebView() {

@@ -26,5 +26,14 @@
         android:layout_height="match_parent"
         android:layout_below="@id/progressBar"/>
 
+    <ImageView
+        android:id="@+id/iv_add_cart"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_add_shopping_cart_red"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"/>
+
 </RelativeLayout>
 </layout>

@@ -1,6 +1,7 @@
 package com.nurisis.seemyclothappp
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity() {
 
     private val shopViewModel by viewModel<ShopViewModel>()
 
+    private val imageReceiver = MyImageReceiver()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         intentFromShare()
+
+        addBroadcast()
 
         observerViewModel()
     }
@@ -61,6 +66,16 @@ class MainActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
+    private fun addBroadcast() {
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(Intent.ACTION_CAMERA_BUTTON)
+        intentFilter.addAction("com.android.camera.NEW_PICTURE")
+        intentFilter.addAction("android.hardware.action.NEW_PICTURE")
+        intentFilter.addAction("android.provider.MediaStore.ACTION_IMAGE_CAPTURE")
+        intentFilter.addDataType("image/*")
+        this.registerReceiver(imageReceiver, intentFilter)
+    }
+
     private fun intentFromShare() {
         val intent = getIntent()
         val action  = intent.action
@@ -70,5 +85,10 @@ class MainActivity : AppCompatActivity() {
             shopViewModel.setSharedImagePath(intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM))
         }
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver(imageReceiver)
     }
 }
