@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
-    app:startDestination="@id/clothesListFragment">
+    app:startDestination="@id/cartListFragment">
+
+    <fragment
+        android:id="@+id/cartListFragment"
+        android:name="com.nurisis.seemyclothappp.ui.CartListFragment"
+        android:label="CartListFragment" >
+        <action
+            android:id="@+id/action_cartListFragment_to_clothesListFragment"
+            app:destination="@id/clothesListFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/clothesListFragment"
@@ -14,6 +23,7 @@
             android:id="@+id/action_clothesListFragment_to_bookmarkFromCaptureFragment"
             app:destination="@id/bookmarkFromCaptureFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/detailWebViewFragment"
         android:name="com.nurisis.seemyclothappp.ui.DetailWebViewFragment"

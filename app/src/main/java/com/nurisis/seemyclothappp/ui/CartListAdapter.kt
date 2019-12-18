@@ -1,17 +1,16 @@
 package com.nurisis.seemyclothappp.ui
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.nurisis.seemyclothappp.data.NaverShopItem
-import com.nurisis.seemyclothappp.databinding.ItemShopListBinding
+import com.nurisis.seemyclothappp.data.local.Cart
+import com.nurisis.seemyclothappp.databinding.ItemCartListBinding
 
-class ShopListAdapter(private val viewModel: ShopViewModel) : ListAdapter<NaverShopItem, ShopListAdapter.ViewHolder>(
-    ShopDiffCallback()
+class CartListAdapter(private val viewModel: ShopViewModel) : ListAdapter<Cart, CartListAdapter.ViewHolder>(
+    CartDiffCallback()
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,12 +25,12 @@ class ShopListAdapter(private val viewModel: ShopViewModel) : ListAdapter<NaverS
         holder.bind(item)
     }
 
-    class ViewHolder private constructor(val binding: ItemShopListBinding, private val viewModel: ShopViewModel) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+    class ViewHolder private constructor(val binding: ItemCartListBinding, private val viewModel: ShopViewModel) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
         init {
             binding.root.setOnClickListener(this)
         }
 
-        fun bind(item: NaverShopItem) {
+        fun bind(item: Cart) {
             binding.item = item
             binding.executePendingBindings()
         }
@@ -42,17 +41,13 @@ class ShopListAdapter(private val viewModel: ShopViewModel) : ListAdapter<NaverS
          * */
         override fun onClick(v: View?) {
             binding.item?.let {
-                viewModel.clickItem(it)
-
-                // Page navigation with the navController
-//                Navigation.findNavController(binding.root).navigate(R.id.action_frag_list_to_concertDetailFragment, bundle)
             }
         }
 
         companion object {
             fun from(parent: ViewGroup, viewModel: ShopViewModel) : ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ItemShopListBinding.inflate(layoutInflater, parent, false)
+                val binding = ItemCartListBinding.inflate(layoutInflater, parent, false)
 
                 return ViewHolder(binding, viewModel)
             }
@@ -60,12 +55,12 @@ class ShopListAdapter(private val viewModel: ShopViewModel) : ListAdapter<NaverS
     }
 }
 
-class ShopDiffCallback : DiffUtil.ItemCallback<NaverShopItem>() {
-    override fun areItemsTheSame(oldItem: NaverShopItem, newItem: NaverShopItem): Boolean {
-        return oldItem.title == newItem.title
+class CartDiffCallback : DiffUtil.ItemCallback<Cart>() {
+    override fun areItemsTheSame(oldItem: Cart, newItem: Cart): Boolean {
+        return oldItem.cart_id == newItem.cart_id
     }
 
-    override fun areContentsTheSame(oldItem: NaverShopItem, newItem: NaverShopItem): Boolean {
+    override fun areContentsTheSame(oldItem: Cart, newItem: Cart): Boolean {
         return oldItem == newItem
     }
 }

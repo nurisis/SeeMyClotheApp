@@ -51,7 +51,6 @@ class DetailWebViewFragment : Fragment(), OnBackPressedListener{
 
         viewDataBinding.ivAddCart.setOnClickListener {
             getHtmlContent(url = viewDataBinding.webView.url)
-            Toast.makeText(activity, "Url : ${viewDataBinding.webView.url}", Toast.LENGTH_SHORT).show()
         }
 
         return viewDataBinding.root
@@ -60,17 +59,22 @@ class DetailWebViewFragment : Fragment(), OnBackPressedListener{
     private fun getHtmlContent(url : String) {
         GlobalScope.launch {
             val document = Jsoup.connect(url).get()
-            filterOgtag(document.select("meta[property^=og:]"))
+            val filterResult = filterOgtag(document.select("meta[property^=og:]"))
+            shopViewModel.addToCartFromWebView(url, filterResult.first, filterResult.second)
         }
     }
 
-    private fun filterOgtag(ogTags:Elements) {
+    private fun filterOgtag(ogTags:Elements) : Pair<String,String> {
+        var title = ""
+        var imgUrl = ""
         ogTags.forEach {
             when(it.attr("property")) {
-                "og:title" -> Log.d("LOG>>","Title : ${it.attr("content")}")
-                "og:image" -> Log.d("LOG>>","Image : ${it.attr("content")}")
+                "og:title" -> title = it.attr("content")
+                "og:image" -> imgUrl = it.attr("content")
             }
         }
+
+        return Pair(title, imgUrl)
     }
 
     private fun setUpWebView() {

@@ -2,16 +2,14 @@ package com.nurisis.seemyclothappp
 
 import android.net.Uri
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import com.nurisis.seemyclothappp.data.NaverSearchResult
 import com.nurisis.seemyclothappp.data.NaverShopItem
 import com.nurisis.seemyclothappp.data.Result
+import com.nurisis.seemyclothappp.domain.CartUseCase
 import com.nurisis.seemyclothappp.domain.SearchClothUseCase
 import com.nurisis.seemyclothappp.entity.State
 import com.nurisis.seemyclothappp.ui.ShopViewModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
@@ -33,8 +31,10 @@ class ShopViewModelTest {
 
     @Mock
     private val searchClothUseCase = mock(SearchClothUseCase::class.java)
+    @Mock
+    private val addToCartUseCase = mock(CartUseCase::class.java)
 
-    private val viewModel :ShopViewModel by lazy { ShopViewModel(searchClothUseCase) }
+    private val viewModel :ShopViewModel by lazy { ShopViewModel(searchClothUseCase, addToCartUseCase) }
 
     @Mock
     lateinit var searchObserver: Observer<List<NaverShopItem>>
@@ -120,5 +120,19 @@ class ShopViewModelTest {
     }
 
 
+    @Test
+    fun addToCartFromWebView_onlyWork_whenUrlIsNotEmpty() {
+        runBlocking {
+            `when`(addToCartUseCase.addCartFromWeb(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(Unit)
+
+            val urlTest = "www"
+            val titleTest = "Naver shopping"
+            val imageUrlTest = "www.dfsd"
+
+            viewModel.addToCartFromWebView(urlTest, titleTest, imageUrlTest)
+
+            verify(addToCartUseCase, atLeastOnce()).addCartFromWeb(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())
+        }
+    }
 
 }

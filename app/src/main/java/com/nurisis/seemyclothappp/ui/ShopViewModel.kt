@@ -8,12 +8,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nurisis.seemyclothappp.data.NaverShopItem
 import com.nurisis.seemyclothappp.data.Result
+import com.nurisis.seemyclothappp.data.local.Cart
+import com.nurisis.seemyclothappp.domain.CartUseCase
 import com.nurisis.seemyclothappp.domain.SearchClothUseCase
 import com.nurisis.seemyclothappp.entity.State
 import kotlinx.coroutines.launch
 
 class ShopViewModel(
-    private val searchClothUseCase: SearchClothUseCase
+    private val searchClothUseCase: SearchClothUseCase,
+    private val cartUseCase: CartUseCase
 ) : ViewModel() {
 
     private val _toastMsg = MutableLiveData<String>()
@@ -37,8 +40,17 @@ class ShopViewModel(
     private val _sharedImageUri = MutableLiveData<Uri>()
     val sharedImageUri : LiveData<Uri> = _sharedImageUri
 
+    // List of my cart
+    var cartList : LiveData<List<Cart>> = MutableLiveData()
+
     private val _searchLoading = MutableLiveData<Boolean>()
     val searchLoading : LiveData<Boolean> = _searchLoading
+
+    init {
+        viewModelScope.launch {
+            cartList = cartUseCase.getCartList()
+        }
+    }
 
     // Search the query
     fun search(query:String) {
@@ -73,6 +85,27 @@ class ShopViewModel(
         }
 
         _sharedImageUri.value = uri
+    }
+
+    /**
+     * Store the item locally the user adds to the shopping cart in the webview
+     * */
+    fun addToCartFromWebView(url:String, title:String, imageUrl:String) {
+        if(url.isEmpty()) {
+            _toastMsg.value = "There is no url to add to the cart."
+            return
+        }
+
+        viewModelScope.launch {
+            cartUseCase.addCartFromWeb(url, title, imageUrl)
+            _toastMsg.value = "Save it to your cart! \uD83D\uDE4C"
+        }
+    }
+
+    fun getCartList() {
+        viewModelScope.launch {
+            cartList = cartUseCase.getCartList()
+        }
     }
 
     /**

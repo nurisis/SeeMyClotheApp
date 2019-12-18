@@ -24,8 +24,19 @@ android {
         // If set to 'true', indicates that the Android system should run the instrumentation
         // class as a functional test. The default value is 'false'
         testFunctionalTest true
+        multiDexEnabled true
     }
     buildTypes {
+        debug {
+            // Activation of R8
+            minifyEnabled false
+            // Default proguard setting
+            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+            // Proguard setting required for the project
+            proguardFile 'proguard-rules.pro'
+            // Proguard setting required for the debug
+            proguardFile 'proguard-debug.pro'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

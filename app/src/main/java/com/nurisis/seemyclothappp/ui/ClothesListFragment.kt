@@ -51,8 +51,6 @@ class ClothesListFragment : Fragment() {
             return@setOnEditorActionListener true
         }
 
-//        viewDataBinding.etQuery.setImeOptions(EditorInfo.IME_ACTION_SEARCH)
-
         return viewDataBinding.root
     }
 
