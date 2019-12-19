@@ -90,6 +90,23 @@ class ShopViewModel(
     /**
      * Store the item locally the user adds to the shopping cart in the webview
      * */
+    fun addToCartFromShare(uri:Uri?) {
+        if(uri == null || uri.path == null) {
+            _toastMsg.value = "No image information!"
+            return
+        }
+
+        _sharedImageUri.value = uri
+        viewModelScope.launch {
+            cartUseCase.addCartFromShare(uri.path!!)
+            _toastMsg.value = "Save it to your cart! \uD83D\uDE4C"
+        }
+
+    }
+
+    /**
+     * Store the item locally the user adds to the shopping cart in the webview
+     * */
     fun addToCartFromWebView(url:String, title:String, imageUrl:String) {
         if(url.isEmpty()) {
             _toastMsg.value = "There is no url to add to the cart."

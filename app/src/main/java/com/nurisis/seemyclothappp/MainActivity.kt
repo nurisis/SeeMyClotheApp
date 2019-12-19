@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     private val shopViewModel by viewModel<ShopViewModel>()
 
-    private val imageReceiver = MyImageReceiver()
+//    private val imageReceiver = MyImageReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         intentFromShare()
 
-        addBroadcast()
+//        addBroadcast()
 
         observerViewModel()
     }
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         shopViewModel.sharedImageUri.observe(this, Observer {
             Log.d("LOG>>", "Uri : $it")
-            navController.navigate(R.id.action_clothesListFragment_to_bookmarkFromCaptureFragment)
+            navController.navigate(R.id.action_cartListFragment_to_bookmarkFromCaptureFragment)
         })
     }
 
@@ -67,13 +67,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addBroadcast() {
-        val intentFilter = IntentFilter()
-        intentFilter.addAction(Intent.ACTION_CAMERA_BUTTON)
-        intentFilter.addAction("com.android.camera.NEW_PICTURE")
-        intentFilter.addAction("android.hardware.action.NEW_PICTURE")
-        intentFilter.addAction("android.provider.MediaStore.ACTION_IMAGE_CAPTURE")
-        intentFilter.addDataType("image/*")
-        this.registerReceiver(imageReceiver, intentFilter)
+//        val intentFilter = IntentFilter()
+//        intentFilter.addAction(Intent.ACTION_CAMERA_BUTTON)
+//        intentFilter.addAction("com.android.camera.NEW_PICTURE")
+//        intentFilter.addAction("android.hardware.action.NEW_PICTURE")
+//        intentFilter.addAction("android.provider.MediaStore.ACTION_IMAGE_CAPTURE")
+//        intentFilter.addDataType("image/*")
+//        this.registerReceiver(imageReceiver, intentFilter)
     }
 
     private fun intentFromShare() {
@@ -82,13 +82,12 @@ class MainActivity : AppCompatActivity() {
         val type = intent.type
 
         if(Intent.ACTION_SEND == action && type!=null){
-            shopViewModel.setSharedImagePath(intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM))
+            shopViewModel.addToCartFromShare(intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM))
         }
 
     }
 
     override fun onPause() {
         super.onPause()
-        unregisterReceiver(imageReceiver)
     }
 }

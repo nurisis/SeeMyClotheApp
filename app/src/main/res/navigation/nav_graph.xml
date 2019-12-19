@@ -10,6 +10,9 @@
         <action
             android:id="@+id/action_cartListFragment_to_clothesListFragment"
             app:destination="@id/clothesListFragment" />
+        <action
+            android:id="@+id/action_cartListFragment_to_bookmarkFromCaptureFragment"
+            app:destination="@id/bookmarkFromCaptureFragment" />
     </fragment>
 
     <fragment

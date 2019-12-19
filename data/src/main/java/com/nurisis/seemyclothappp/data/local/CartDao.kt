@@ -13,9 +13,6 @@ interface CartDao{
     fun getAllCart() : LiveData<List<Cart>>
 
     @Insert(onConflict = REPLACE)
-    fun insertCartFromWeb(cart: Cart)
-
-    @Insert(onConflict = REPLACE)
-    fun insertCartFromLocal(cart: Cart)
+    fun insertCart(cart: Cart)
 
 }
