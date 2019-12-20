@@ -9,7 +9,7 @@ import androidx.room.Query
 @Dao
 interface CartDao{
 
-    @Query("SELECT * FROM cart")
+    @Query("SELECT * FROM cart ORDER BY cart_created DESC")
     fun getAllCart() : LiveData<List<Cart>>
 
     @Insert(onConflict = REPLACE)

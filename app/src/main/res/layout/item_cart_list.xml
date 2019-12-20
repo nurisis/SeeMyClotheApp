@@ -19,7 +19,7 @@
         android:layout_height="200dp"
         android:layout_marginBottom="16dp"
         android:layout_centerHorizontal="true"
-        app:imagePath="@{item.cart_img_url}"/>
+        app:imagePath="@{item.cart_img_url.empty ? item.cart_img_local_path : item.cart_img_url}"/>
 
     <TextView
         android:id="@+id/tv_title"

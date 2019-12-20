@@ -1,5 +1,6 @@
 package com.nurisis.seemyclothappp.data.repository
 
+import androidx.lifecycle.LiveData
 import com.nurisis.seemyclothappp.data.local.Cart
 import com.nurisis.seemyclothappp.data.local.CartDao
 import kotlinx.coroutines.CoroutineDispatcher
@@ -15,7 +16,7 @@ class CartRepository (
         cartDao.insertCart(cart)
     }
 
-    suspend fun getCartList() = withContext(ioDispatcher) {
-        cartDao.getAllCart()
+    fun getCartList() : LiveData<List<Cart>> {
+        return cartDao.getAllCart()
     }
 }

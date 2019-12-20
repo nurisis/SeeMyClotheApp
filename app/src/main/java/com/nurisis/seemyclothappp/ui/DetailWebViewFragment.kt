@@ -12,12 +12,9 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import com.nurisis.seemyclothappp.MainActivity
 import com.nurisis.seemyclothappp.databinding.FragmentDetailWebviewBinding
-import kotlinx.android.synthetic.main.fragment_detail_webview.*
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
@@ -57,11 +54,21 @@ class DetailWebViewFragment : Fragment(), OnBackPressedListener{
     }
 
     private fun getHtmlContent(url : String) {
-        GlobalScope.launch {
-            val document = Jsoup.connect(url).get()
-            val filterResult = filterOgtag(document.select("meta[property^=og:]"))
-            shopViewModel.addToCartFromWebView(url, filterResult.first, filterResult.second)
+        try {
+            GlobalScope.launch {
+                val document = Jsoup.connect(url).get()
+                val filterResult = filterOgtag(document.select("meta[property^=og:]"))
+                shopViewModel.addToCartFromWebView(url, filterResult.first, filterResult.second)
+            }
+
+        }catch (e:java.io.IOException) {
+            Log.e("LOG>>", "error :$e")
+            Toast.makeText(activity, "There is an error while saving your item!", Toast.LENGTH_SHORT).show()
+        }catch (e:java.lang.Exception) {
+            Log.e("LOG>>", "error :$e")
+            Toast.makeText(activity, "There is an error while saving your item!", Toast.LENGTH_SHORT).show()
         }
+
     }
 
     private fun filterOgtag(ogTags:Elements) : Pair<String,String> {

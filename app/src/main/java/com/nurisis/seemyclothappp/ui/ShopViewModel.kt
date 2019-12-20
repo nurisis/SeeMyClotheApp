@@ -41,16 +41,10 @@ class ShopViewModel(
     val sharedImageUri : LiveData<Uri> = _sharedImageUri
 
     // List of my cart
-    var cartList : LiveData<List<Cart>> = MutableLiveData()
+    var cartList : LiveData<List<Cart>> = cartUseCase.getCartList()
 
     private val _searchLoading = MutableLiveData<Boolean>()
     val searchLoading : LiveData<Boolean> = _searchLoading
-
-    init {
-        viewModelScope.launch {
-            cartList = cartUseCase.getCartList()
-        }
-    }
 
     // Search the query
     fun search(query:String) {
@@ -116,12 +110,6 @@ class ShopViewModel(
         viewModelScope.launch {
             cartUseCase.addCartFromWeb(url, title, imageUrl)
             _toastMsg.value = "Save it to your cart! \uD83D\uDE4C"
-        }
-    }
-
-    fun getCartList() {
-        viewModelScope.launch {
-            cartList = cartUseCase.getCartList()
         }
     }
 

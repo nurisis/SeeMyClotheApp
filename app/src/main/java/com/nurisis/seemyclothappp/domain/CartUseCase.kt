@@ -31,7 +31,7 @@ class CartUseCase (
         )
     }
 
-    suspend fun getCartList() : LiveData<List<Cart>> {
+    fun getCartList() : LiveData<List<Cart>> {
         return cartRepository.getCartList()
     }
 }
