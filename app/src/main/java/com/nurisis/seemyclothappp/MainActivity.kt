@@ -1,11 +1,9 @@
 package com.nurisis.seemyclothappp
 
 import android.content.Intent
-import android.content.IntentFilter
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -13,6 +11,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.nurisis.seemyclothappp.ui.CartListFragmentDirections
 import com.nurisis.seemyclothappp.ui.ShopViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -49,20 +48,14 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.action_clothesListFragment_to_detailWebViewFragment)
         })
 
-        shopViewModel.sharedImageUri.observe(this, Observer {
-            Log.d("LOG>>", "Uri : $it")
-            navController.navigate(R.id.action_cartListFragment_to_bookmarkFromCaptureFragment)
-        })
     }
 
     // TODO :: 이거뭐야?
     override fun onSupportNavigateUp(): Boolean {
-        Log.d("LOG>>", "------ onSupportNavigateUp() --------")
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     override fun onBackPressed() {
-        Log.d("LOG>>", "------ onBackPressed() in MainActivity --------")
         super.onBackPressed()
     }
 
@@ -82,12 +75,11 @@ class MainActivity : AppCompatActivity() {
         val type = intent.type
 
         if(Intent.ACTION_SEND == action && type!=null){
-            shopViewModel.addToCartFromShare(intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM))
+            val imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM) as Uri
+            val navAction = CartListFragmentDirections.actionCartListFragmentToBookmarkFromCaptureFragment(imageUri)
+            navController.navigate(navAction)
         }
 
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
 }

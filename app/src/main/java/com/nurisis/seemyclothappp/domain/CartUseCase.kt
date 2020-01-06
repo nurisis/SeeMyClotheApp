@@ -22,10 +22,11 @@ class CartUseCase (
         )
     }
 
-    suspend fun addCartFromShare(localImagePath:String) {
+    suspend fun addCartFromShare(localImagePath:String, title:String) {
         cartRepository.addCart(
             Cart(
                 cart_img_local_path = localImagePath,
+                cart_title = title,
                 cart_created = SimpleDateFormat("YYYY_MM_dd_HH:mm:ss").format(Date())
             )
         )

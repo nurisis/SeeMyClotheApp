@@ -22,8 +22,6 @@ class ShopViewModel(
     private val _toastMsg = MutableLiveData<String>()
     val toastMsg : LiveData<String> = _toastMsg
 
-    // Item that user click to see detail
-
     private val _searchState = MutableLiveData<State>(State.START)
     val searchState : LiveData<State> = _searchState
     // List of search result
@@ -37,8 +35,8 @@ class ShopViewModel(
     private val _totalItem = MutableLiveData<Long>()
     val totalItem : LiveData<Long> = _totalItem
 
-    private val _sharedImageUri = MutableLiveData<Uri>()
-    val sharedImageUri : LiveData<Uri> = _sharedImageUri
+    private val _sharedToBookmarkDone = MutableLiveData<Boolean>(false)
+    val sharedToBookmarkDone : LiveData<Boolean> = _sharedToBookmarkDone
 
     // List of my cart
     var cartList : LiveData<List<Cart>> = cartUseCase.getCartList()
@@ -72,27 +70,22 @@ class ShopViewModel(
         _clickedItem.value = item
     }
 
-    fun setSharedImagePath(uri:Uri?) {
-        if(uri == null) {
-            _toastMsg.value = "No image shared.."
-            return
-        }
-
-        _sharedImageUri.value = uri
-    }
-
     /**
      * Store the item locally the user adds to the shopping cart in the webview
      * */
-    fun addToCartFromShare(uri:Uri?) {
+    fun addToCartFromShare(uri:Uri?, title:String) {
+        if(title.isEmpty()) {
+            _toastMsg.value = "Please write a title."
+            return
+        }
         if(uri == null || uri.path == null) {
             _toastMsg.value = "No image information!"
             return
         }
 
-        _sharedImageUri.value = uri
         viewModelScope.launch {
-            cartUseCase.addCartFromShare(uri.path!!)
+            cartUseCase.addCartFromShare(uri.normalizeScheme().toString(), title)
+            _sharedToBookmarkDone.value = true
             _toastMsg.value = "Save it to your cart! \uD83D\uDE4C"
         }
 

@@ -20,7 +20,7 @@ import org.jsoup.Jsoup
 import org.jsoup.select.Elements
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class DetailWebViewFragment : Fragment(), OnBackPressedListener{
+class DetailWebViewFragment : Fragment(){
 
     private val shopViewModel by sharedViewModel<ShopViewModel>()
     private lateinit var viewDataBinding : FragmentDetailWebviewBinding
@@ -52,6 +52,8 @@ class DetailWebViewFragment : Fragment(), OnBackPressedListener{
 
         return viewDataBinding.root
     }
+
+
 
     private fun getHtmlContent(url : String) {
         try {
@@ -126,11 +128,5 @@ class DetailWebViewFragment : Fragment(), OnBackPressedListener{
         shopViewModel.clickedItem.value?.let {
             viewDataBinding.webView.loadUrl(it.link)
         }
-    }
-
-    override fun onBackPressed() {
-        Log.d("LOG>>", "------ onBackPressed --------")
-        if(viewDataBinding.webView.canGoBack()) viewDataBinding.webView.goBack()
-        else (activity as? MainActivity)?.onBackPressed()
     }
 }

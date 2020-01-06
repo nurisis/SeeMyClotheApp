@@ -12,7 +12,11 @@
             app:destination="@id/clothesListFragment" />
         <action
             android:id="@+id/action_cartListFragment_to_bookmarkFromCaptureFragment"
-            app:destination="@id/bookmarkFromCaptureFragment" />
+            app:destination="@id/bookmarkFromCaptureFragment" >
+            <argument
+                android:name="imageUri"
+                app:argType="android.net.Uri" />
+        </action>
     </fragment>
 
     <fragment
@@ -34,5 +38,12 @@
     <fragment
         android:id="@+id/bookmarkFromCaptureFragment"
         android:name="com.nurisis.seemyclothappp.ui.BookmarkFromCaptureFragment"
-        android:label="BookmarkFromCaptureFragment" />
+        android:label="BookmarkFromShare" >
+        <argument
+            android:name="imageUri"
+            app:argType="android.net.Uri" />
+        <action
+            android:id="@+id/action_bookmarkFromCaptureFragment_to_cartListFragment"
+            app:destination="@id/cartListFragment" />
+    </fragment>
 </navigation>
