@@ -39,9 +39,6 @@ class ShopViewModelTest {
     @Mock
     lateinit var searchObserver: Observer<List<NaverShopItem>>
 
-    @Mock
-    lateinit var sharedImgObserver: Observer<Uri>
-
     @Before
     fun init(){
         MockitoAnnotations.initMocks(this)
@@ -105,18 +102,6 @@ class ShopViewModelTest {
             verify(searchObserver, never()).onChanged(ArgumentMatchers.anyList())
             verify(searchClothUseCase, never()).search(query)
         }
-    }
-
-    @Test
-    fun whenImegeUriSharedFromOutside_withNull () {
-        val testUri = null
-
-        viewModel.sharedImageUri.observeForever(sharedImgObserver)
-
-        viewModel.setSharedImagePath(testUri)
-
-        verify(sharedImgObserver, never()).onChanged(Uri.parse(""))
-        assertNull(viewModel.sharedImageUri.value)
     }
 
 

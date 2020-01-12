@@ -37,15 +37,12 @@ class ShopListAdapter(private val viewModel: ShopViewModel) : ListAdapter<NaverS
         }
 
         /**
-         * When click a performance item from performance list,
+         * When click a item from search list,
          * Go to a detail page of item
          * */
         override fun onClick(v: View?) {
             binding.item?.let {
                 viewModel.clickItem(it)
-
-                // Page navigation with the navController
-//                Navigation.findNavController(binding.root).navigate(R.id.action_frag_list_to_concertDetailFragment, bundle)
             }
         }
 

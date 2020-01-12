@@ -6,7 +6,7 @@
     <fragment
         android:id="@+id/cartListFragment"
         android:name="com.nurisis.seemyclothappp.ui.CartListFragment"
-        android:label="CartListFragment" >
+        android:label="Your cart" >
         <action
             android:id="@+id/action_cartListFragment_to_clothesListFragment"
             app:destination="@id/clothesListFragment" />
@@ -17,12 +17,15 @@
                 android:name="imageUri"
                 app:argType="android.net.Uri" />
         </action>
+        <action
+            android:id="@+id/action_cartListFragment_to_detailWebViewFragment"
+            app:destination="@id/detailWebViewFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/clothesListFragment"
         android:name="com.nurisis.seemyclothappp.ui.ClothesListFragment"
-        android:label="Search your cloth" >
+        android:label="Search clothes" >
         <action
             android:id="@+id/action_clothesListFragment_to_detailWebViewFragment"
             app:destination="@id/detailWebViewFragment" />
@@ -34,7 +37,7 @@
     <fragment
         android:id="@+id/detailWebViewFragment"
         android:name="com.nurisis.seemyclothappp.ui.DetailWebViewFragment"
-        android:label="Detail page" />
+        android:label="Detail" />
     <fragment
         android:id="@+id/bookmarkFromCaptureFragment"
         android:name="com.nurisis.seemyclothappp.ui.BookmarkFromCaptureFragment"

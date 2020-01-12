@@ -28,9 +28,11 @@
 
     <ImageView
         android:id="@+id/iv_add_cart"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/ic_add_shopping_cart_red"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:padding="8dp"
+        android:background="@drawable/bg_circle"
+        android:src="@drawable/ic_add_shopping_cart"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"/>

@@ -20,8 +20,9 @@ class BookmarkFromCaptureFragment : Fragment() {
     private val shopViewModel by sharedViewModel<ShopViewModel>()
     private lateinit var viewDataBinding : FragmentBookmarkFromCaptureBinding
 
-    val args: BookmarkFromCaptureFragmentArgs by navArgs()
-
+    // Arguments from MainActivity - when image shared externally
+    private val args: BookmarkFromCaptureFragmentArgs by navArgs()
+    // Uri of shared image
     private lateinit var imageUri : Uri
 
     override fun onCreateView(
@@ -45,14 +46,6 @@ class BookmarkFromCaptureFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         imageUri = args.imageUri
-
-//        Log.d("LOG>>", "uri : ${imageUri.toString()}")
-//        Log.d("LOG>>", "uri path : ${imageUri.path}")
-//        Log.d("LOG>>", "uri scheme : ${imageUri.scheme}")
-//        Log.d("LOG>>", "uri encodedAuthority : ${imageUri.encodedAuthority}")
-//        Log.d("LOG>>", "uri encodedSchemeSpecificPart : ${imageUri.encodedSchemeSpecificPart}")
-//        Log.d("LOG>>", "uri normalizeScheme : ${imageUri.normalizeScheme()}")
-
         viewDataBinding.ivCaptured.setImageURI(imageUri)
     }
 

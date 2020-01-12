@@ -12,20 +12,16 @@ val networkModule = module {
 
     single { createOkHttp() }
 
-    // TODO :: API 주소 넣어줘야 함.
     single {
         createWebService<NaverSearchApi>(get(), "https://openapi.naver.com")
     }
 }
 
 fun createOkHttp() : OkHttpClient {
-//    val httpLoggingInterceptor = HttpLoggingInterceptor()
-//    httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BASIC
 
     return OkHttpClient.Builder()
         .connectTimeout(60L, TimeUnit.SECONDS)
         .readTimeout(60L, TimeUnit.SECONDS)
-//        .addInterceptor(httpLoggingInterceptor)
         .build()
 }
 
@@ -35,8 +31,6 @@ inline fun <reified T> createWebService(okHttpClient: OkHttpClient, url: String)
         .client(okHttpClient)
         // For json parser
         .addConverterFactory(GsonConverterFactory.create())
-        // For string parser
-//        .addConverterFactory(ScalarsConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
 

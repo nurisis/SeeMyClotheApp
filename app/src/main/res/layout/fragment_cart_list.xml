@@ -10,12 +10,12 @@
         android:id="@+id/tv_search_cta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black"
+        android:background="@drawable/bg_cta_button"
         android:layout_marginBottom="16dp"
-        android:padding="8dp"
+        android:padding="16dp"
+        android:gravity="center"
         android:textColor="@color/white"
-        android:text="Searh your clothes."
-        android:textStyle="bold"
+        android:text="Click to search fancy Clothes 👗"
         android:textSize="18sp"/>
 
     <androidx.recyclerview.widget.RecyclerView

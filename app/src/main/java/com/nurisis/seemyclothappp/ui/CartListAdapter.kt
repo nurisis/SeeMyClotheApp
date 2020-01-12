@@ -36,11 +36,12 @@ class CartListAdapter(private val viewModel: ShopViewModel) : ListAdapter<Cart, 
         }
 
         /**
-         * When click a performance item from performance list,
+         * When click a item from user's cart list,
          * Go to a detail page of item
          * */
         override fun onClick(v: View?) {
             binding.item?.let {
+                viewModel.clickCartItem(it)
             }
         }
 

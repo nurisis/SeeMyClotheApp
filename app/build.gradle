@@ -124,10 +124,6 @@ dependencies {
 //    androidTestImplementation 'com.android.support:support-annotations:24.0.0'
 //    androidTestImplementation 'com.android.support.test:runner:0.5'
 
-    // Core library
-//    androidTestImplementation 'androidx.test:core:1.0.0'
-//    androidTestImplementation "androidx.arch.core:core-testing:2.0.0"
-
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
 
     // Koin

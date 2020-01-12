@@ -12,7 +12,6 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
-import com.nurisis.seemyclothappp.MainActivity
 import com.nurisis.seemyclothappp.databinding.FragmentDetailWebviewBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -24,15 +23,6 @@ class DetailWebViewFragment : Fragment(){
 
     private val shopViewModel by sharedViewModel<ShopViewModel>()
     private lateinit var viewDataBinding : FragmentDetailWebviewBinding
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            DetailWebViewFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,8 +43,6 @@ class DetailWebViewFragment : Fragment(){
         return viewDataBinding.root
     }
 
-
-
     private fun getHtmlContent(url : String) {
         try {
             GlobalScope.launch {
@@ -73,6 +61,9 @@ class DetailWebViewFragment : Fragment(){
 
     }
 
+    /**
+     * Get a title and imageUrl of url using OgTag
+     * */
     private fun filterOgtag(ogTags:Elements) : Pair<String,String> {
         var title = ""
         var imgUrl = ""

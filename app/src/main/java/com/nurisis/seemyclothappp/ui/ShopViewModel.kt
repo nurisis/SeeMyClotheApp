@@ -24,6 +24,7 @@ class ShopViewModel(
 
     private val _searchState = MutableLiveData<State>(State.START)
     val searchState : LiveData<State> = _searchState
+
     // List of search result
     private val _searchList = MutableLiveData<List<NaverShopItem>>()
     val searchList : LiveData<List<NaverShopItem>> = _searchList
@@ -32,6 +33,7 @@ class ShopViewModel(
     private val _clickedItem = MutableLiveData<NaverShopItem>()
     val clickedItem : LiveData<NaverShopItem> = _clickedItem
 
+    // Total number of items of search list
     private val _totalItem = MutableLiveData<Long>()
     val totalItem : LiveData<Long> = _totalItem
 
@@ -52,15 +54,14 @@ class ShopViewModel(
         _searchState.value = State.SHOW
 
         viewModelScope.launch {
-            val searchResult = searchClothUseCase.search(query)
-            Log.d("LOG>>", "Search result : $searchResult")
-
-            if(searchResult is Result.Success) {
-                _searchList.value = searchResult.data.items
-                _totalItem.value = searchResult.data.total
+            searchClothUseCase.search(query).run {
+                if(this is Result.Success) {
+                    _searchList.value = data.items
+                    _totalItem.value = data.total
+                }
+                else
+                    _searchState.value = State.NONE
             }
-            else
-                _searchState.value = State.NONE
 
             _searchLoading.value = false
         }
@@ -106,8 +107,11 @@ class ShopViewModel(
         }
     }
 
-    /**
-     * Get an uri from shared intent from MainActivity
-     * */
+    fun clickCartItem(cart:Cart){
+        if(cart.cart_url.isNotEmpty())
+            _clickedItem.value = NaverShopItem(link = cart.cart_url)
+        else
+            _toastMsg.value = "No url to go."
+    }
 
 }

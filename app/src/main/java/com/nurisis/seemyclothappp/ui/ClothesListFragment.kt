@@ -17,14 +17,6 @@ class ClothesListFragment : Fragment() {
     private lateinit var listAdapter: ShopListAdapter
     private lateinit var viewDataBinding : FragmentClothesListBinding
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,10 +33,9 @@ class ClothesListFragment : Fragment() {
             val staggeredGridLayoutManager = StaggeredGridLayoutManager(2,1)
             layoutManager = staggeredGridLayoutManager
             itemAnimator = null
-//            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         }
 
-        viewDataBinding.etQuery.setOnEditorActionListener { v, actionId, event ->
+        viewDataBinding.etQuery.setOnEditorActionListener { _, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_SEARCH)
                 shopViewModel.search(viewDataBinding.etQuery.text.toString())
 
@@ -60,23 +51,5 @@ class ClothesListFragment : Fragment() {
         shopViewModel.searchList.observe(viewLifecycleOwner, Observer {
             listAdapter.submitList(it)
         })
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ClothesListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ClothesListFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
     }
 }
