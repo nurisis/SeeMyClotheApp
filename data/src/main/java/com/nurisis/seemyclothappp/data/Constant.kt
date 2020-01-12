@@ -1,6 +1,6 @@
 package com.nurisis.seemyclothappp.data
 
 object Constant {
-    const val NAVER_CLIENT_ID = "1_5LJMFvrB5NFZf6TlLW"
-    const val NAVER_CLIENT_SECRET = "NYzqRUs1K_"
+    const val NAVER_CLIENT_ID = "NAVER CLIENT ID"
+    const val NAVER_CLIENT_SECRET = "NAVER CLIENT SECRET"
 }
